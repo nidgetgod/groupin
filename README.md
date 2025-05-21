@@ -1,2 +1,2 @@
 # groupin
-An open source grouping buy APP
+An open source group buying APP
