@@ -1,0 +1,15 @@
+SUPABASE_URL=YOUR_SUPABASE_PROJECT_URL
+SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
+
+# Instructions:
+# 1. Go to https://supabase.com/dashboard/projects
+# 2. Click on "New project".
+# 3. Choose your organization and fill in the project details (Name, Database Password, Region).
+# 4. Click "Create new project".
+# 5. Once the project is created, navigate to Project Settings > API.
+# 6. You will find your Project URL and Project API keys (use the `anon` `public` key).
+# 7. Replace the placeholder values above with your actual Supabase Project URL and Anon Key.
+# 8. After updating these details, you can use the SQL statements in `schema.sql`
+#    by navigating to the SQL Editor in your Supabase project dashboard (Database > SQL Editor)
+#    and running the queries. Make sure to run the `CREATE EXTENSION IF NOT EXISTS "uuid-ossp";` statement first
+#    if the extension is not already enabled.
