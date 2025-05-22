@@ -30,8 +30,8 @@ jobs:
         env:
           GITHUB_PAGES: "true" # To activate basePath and assetPrefix in next.config.ts
           # Set Supabase env vars here if they were needed at build time (for client-side they are not)
-          # NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-          # NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
       - name: Add .nojekyll file
         run: touch ./out/.nojekyll # Prevents GitHub Pages from running Jekyll processing
