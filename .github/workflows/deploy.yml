@@ -1,0 +1,58 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Or 'master' depending on your default branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Allow write access to repository for gh-pages branch creation/update
+      pages: write    # Allow deploying to GitHub Pages
+      id-token: write # Allow OIDC token generation for passwordless deployment (if supported by deploy action)
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Using Node.js 20, adjust if needed
+
+      - name: Install dependencies
+        run: npm ci # Using npm ci for cleaner installs in CI
+
+      - name: Build Next.js application
+        run: npm run build
+        env:
+          GITHUB_PAGES: "true" # To activate basePath and assetPrefix in next.config.ts
+          # Set Supabase env vars here if they were needed at build time (for client-side they are not)
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+
+      - name: Add .nojekyll file
+        run: touch ./out/.nojekyll # Prevents GitHub Pages from running Jekyll processing
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out # Directory to deploy (Next.js static export output)
+          # publish_branch: gh-pages # Default is gh-pages
+          # user_name: 'github-actions[bot]' # Default
+          # user_email: 'github-actions[bot]@users.noreply.github.com' # Default
+          # cname: your-custom-domain.com # Optional: if using a custom domain
+          # full_commit_message: Deploy to GitHub Pages # Optional: custom commit message
+        # Ensure the GITHUB_TOKEN has permissions to write to the gh-pages branch.
+        # This is usually the case by default for actions running in the same repository.
+        # For organization repositories or more complex permission setups, you might need a PAT.
+        # However, the `permissions` block at the job level should handle this for most cases.
+      
+      - name: Output deployment URL structure
+        run: echo "Deployment should be available at https://<your-username>.github.io/group-buying-app/"
+        # Replace <your-username> with the actual GitHub username.
+        # The workflow can't know the username, so this is a reminder.
+```
